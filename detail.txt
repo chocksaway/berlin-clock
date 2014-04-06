@@ -1,0 +1,165 @@
+The Berlin Clock implementation approach which has been chosen focusses on:
+
+1.  Ensuring that the input data is correct (number of groups, the number of lamps in each group, and the number positioning of red-lamps for the bottom row (first)).  
+These are implemented in BerlinClock.validateBerlinClockInput, BerlinClock.checkClockGroups, BerlinClock.checkCorrectLampColoursForRows.
+
+2.  I have used a LampRow class with a getTime method, which is called recursively (with the value of each lamp being "running-totalled"). 
+This functionality is exercised by testBerlinClockTopRow, testBerlinClockTopSecondRow, testBerlinClockBottomFirstRow, and testBerlinClockBottomSecondRow.
+
+3.  I made an "assumption" not to bother with "seconds" in this Berlin Clock implementation.  The "appearance" of a Berlin clock does not change (for example):
+		 13:17:01 O RROO RRRO YYROOOOOOOO YYOO or 13:17:03 O RROO RRRO YYROOOOOOOO YYOO
+	I made a decision to "append the number of" seconds which were in the "Input Result" data, to the testFullBerlinClockInput unit-test class (described in 4).  This allowed for assert equals to be used effectively.
+
+4.	testFullBerlinClockInput is used to "exercise the four Input Result data":
+
+			1.  00:00:00 Y OOOO OOOO OOOOOOOOOOO OOOO
+			2.  13:17:01 O RROO RRRO YYROOOOOOOO YYOO
+			3.  23:59:59 O RRRR RRRO YYRYYRYYRYY YYYY
+			4.  24:00:00 Y RRRR RRRR OOOOOOOOOOO OOOO
+
+The "berlin clock input" (for example RROO RRRO YYROOOOOOOO YYOO) is used to calculate the hours, and minutes for each of the four cases.  The seconds are appended to each result.  All four tests pass.  Unit tests described in (1) are utilised to check the integrity of input-data.  An ASCII representation of the Berlin Clock is output for (each of the four) Input Result Data.
+
+5.  The Berlin Clock implementation is available for https://github.com/chocksaway/berlin-clock.git
+
+5.1 Clone the repository locally:
+
+> git clone https://github.com/chocksaway/berlin-clock.git
+Cloning into 'berlin-clock'...
+remote: Counting objects: 65, done.
+remote: Compressing objects: 100% (42/42), done.
+remote: Total 65 (delta 3), reused 65 (delta 3)
+Unpacking objects: 100% (65/65), done.
+Checking connectivity... done
+
+5.2 Change directory to berlin-clock:
+> cd berlin-clock/
+
+5.4 Use "maven" (mvn) to clean, compile, and "run" unit-tests (full output from running tests is below):
+> mvn clean
+> mvn compile
+> mvn test
+
+mvn clean
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building techtest 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ techtest ---
+[INFO] Deleting /private/tmp/berlin-clock/target
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.437s
+[INFO] Finished at: Sun Apr 06 12:22:58 BST 2014
+[INFO] Final Memory: 4M/156M
+[INFO] ------------------------------------------------------------------------
+MilesMac:berlin-clock mac$ mvn compile
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building techtest 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ techtest ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /private/tmp/berlin-clock/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ techtest ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 6 source files to /private/tmp/berlin-clock/target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.210s
+[INFO] Finished at: Sun Apr 06 12:23:05 BST 2014
+[INFO] Final Memory: 10M/156M
+[INFO] ------------------------------------------------------------------------
+MilesMac:berlin-clock mac$ mvn test
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building techtest 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ techtest ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /private/tmp/berlin-clock/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ techtest ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ techtest ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /private/tmp/berlin-clock/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ techtest ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1 source file to /private/tmp/berlin-clock/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.7.2:test (default-test) @ techtest ---
+[INFO] Surefire report directory: /private/tmp/berlin-clock/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.inkglobal.techtest.BerlinClockTest
+------
+00:00:00 Y OOOO OOOO OOOOOOOOOOO OOOO
+------
+Y
+OOOO
+OOOO
+OOOOOOOOOOO
+OOOO
+------
+
+------
+13:17:01 O RROO RRRO YYROOOOOOOO YYOO
+------
+O
+RROO
+RRRO
+YYROOOOOOOO
+YYOO
+------
+
+------
+23:59:59 O RRRR RRRO YYRYYRYYRYY YYYY
+------
+O
+RRRR
+RRRO
+YYRYYRYYRYY
+YYYY
+------
+
+------
+24:00:00 Y RRRR RRRR OOOOOOOOOOO OOOO
+------
+Y
+RRRR
+RRRR
+OOOOOOOOOOO
+OOOO
+------
+
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 sec
+
+Results :
+
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.807s
+[INFO] Finished at: Sun Apr 06 12:23:13 BST 2014
+[INFO] Final Memory: 12M/222M
+[INFO] ------------------------------------------------------------------------
+
+
+
