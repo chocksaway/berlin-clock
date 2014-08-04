@@ -1,4 +1,4 @@
-The Berlin Clock implementation approach which has been chosen focusses on:
+The Berlin Clock implementation approach which has been chosen focusses on:-
 
 1.  Ensuring that the input data is correct (number of groups, the number of lamps in each group, and the number positioning of red-lamps for the bottom row (first)).  
 These are implemented in BerlinClock.validateBerlinClockInput, BerlinClock.checkClockGroups, BerlinClock.checkCorrectLampColoursForRows.
